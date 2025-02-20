@@ -1,0 +1,14 @@
+from flask import Flask, request, jsonify
+import joblib
+
+app = Flask(__name__)
+model = joblib.load('nlp_model.pkl')
+
+@app.route('/clean_data', methods=['POST'])
+def clean_data():
+    data = request.json['text']
+    cleaned_data = model.predict(data)
+    return jsonify({'cleaned_data': cleaned_data})
+
+if __name__ == "__main__":
+    app.run(debug=True)
