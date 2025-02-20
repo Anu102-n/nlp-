@@ -1,0 +1,39 @@
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+from dash.dependencies import Input, Output
+import plotly.graph_objs as go
+
+app = dash.Dash(__name__)
+
+app.layout = html.Div([
+    html.H1("Data Cleaning Dashboard"),
+    dcc.Graph(id='performance-graph'),
+    dcc.Graph(id='issue-breakdown'),
+    dcc.Graph(id='historical-trends'),
+])
+
+@app.callback(
+    Output('performance-graph', 'figure'),
+    Output('issue-breakdown', 'figure'),
+    Output('historical-trends', 'figure')
+)
+def update_dashboard():
+    # Dummy data for the example
+    performance_data = go.Figure([
+        go.Bar(x=["Precision", "Recall", "F1-Score"], y=[92.5, 89.3, 90.9])
+    ])
+
+    issue_data = go.Figure([
+        go.Pie(labels=["Missing Data", "Duplicates", "Normalization", "Errors"],
+               values=[200, 50, 1500, 500])
+    ])
+
+    historical_data = go.Figure([
+        go.Scatter(x=[1, 2, 3, 4], y=[1000, 3000, 4500, 5000], mode='lines')
+    ])
+
+    return performance_data, issue_data, historical_data
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
